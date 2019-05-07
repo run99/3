@@ -26,9 +26,6 @@ public class MainActivity extends AppCompatActivity implements MemoAdapter.OnChe
 
     DrawerLayout drawer;
 
-//    public RelativeLayout relativeLayout;
-//    public FrameLayout frameLayout;
-
     //private int mode = 0;
 
     @Override
@@ -44,14 +41,7 @@ public class MainActivity extends AppCompatActivity implements MemoAdapter.OnChe
         // realmを開く
         realm = Realm.getDefaultInstance();
 
-//        relativeLayout = (RelativeLayout)findViewById(R.id.relativeLayout);
-//        frameLayout = (FrameLayout)findViewById(R.id.frameLayout);
-//        frameLayout.setBackgroundResource(R.drawable.ic_background);
-//        frameLayout.setVisibility(View.INVISIBLE);
-
         listView = findViewById(R.id.listView);
-
-        setMemoList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements MemoAdapter.OnChe
             }
         });
 
+        setMemoList();
+
     }
 
     public void setMemoList(){
@@ -94,17 +86,8 @@ public class MainActivity extends AppCompatActivity implements MemoAdapter.OnChe
         RealmResults<Memo> results = realm.where(Memo.class).findAll();
         List<Memo> items = realm.copyFromRealm(results);
 
-//        if(items.isEmpty()){
-////            relativeLayout.setBackgroundResource(R.drawable.ic_backgroung);
-//            frameLayout.setVisibility(View.VISIBLE);
-//
-//        }else{
-////            relativeLayout.setBackgroundColor(Color.parseColor("#00000000"));
-//            frameLayout.setVisibility(View.INVISIBLE);
-//
-//        }
-
         MemoAdapter adapter = new MemoAdapter(this,R.layout.layout_item_memo,items);
+        adapter.setOnCheckClickListener(this);
 
         listView.setAdapter(adapter);
     }
